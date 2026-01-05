@@ -119,10 +119,10 @@ const Hero = () => {
                             className="absolute inset-0 will-change-[mask-position] pointer-events-none transition-opacity duration-300"
                             style={{
                                 maskImage: isHovering
-                                    ? `radial-gradient(circle 120px at ${mousePos.x}px ${mousePos.y}px, black 100%, transparent 100%)`
+                                    ? `radial-gradient(circle 80px at ${mousePos.x}px ${mousePos.y}px, black 100%, transparent 100%)`
                                     : 'none',
                                 WebkitMaskImage: isHovering
-                                    ? `radial-gradient(circle 120px at ${mousePos.x}px ${mousePos.y}px, black 100%, transparent 100%)`
+                                    ? `radial-gradient(circle 80px at ${mousePos.x}px ${mousePos.y}px, black 100%, transparent 100%)`
                                     : 'none',
                                 opacity: isHovering ? 1 : 0
                             }}
@@ -140,7 +140,7 @@ const Hero = () => {
                         {/* 3. Lens Border/Glass Effect (Visual Indicator) */}
                         {isHovering && (
                             <div
-                                className="absolute w-[240px] h-[240px] rounded-full border-2 border-white/30 pointer-events-none shadow-[0_0_40px_rgba(255,255,255,0.3)] backdrop-brightness-110"
+                                className="absolute w-[160px] h-[160px] rounded-full border-2 border-white/30 pointer-events-none shadow-[0_0_40px_rgba(255,255,255,0.3)] backdrop-brightness-110"
                                 style={{
                                     left: mousePos.x,
                                     top: mousePos.y,
