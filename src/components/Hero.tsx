@@ -6,10 +6,7 @@ import { useParallax } from '@/hooks/useParallax';
 
 const Hero = () => {
     const bgParallax = useParallax(0.2);
-    // Custom scroll indicator animation state
     const [scrollOpacity, setScrollOpacity] = useState(1);
-
-    // Lens Effect State
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const [isHovering, setIsHovering] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -34,7 +31,6 @@ const Hero = () => {
 
     return (
         <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-brand-light">
-            {/* Background with Overlay */}
             <div
                 className="absolute inset-0 z-0 will-change-transform"
                 style={{ transform: `translateY(${bgParallax}px)` }}
@@ -43,7 +39,6 @@ const Hero = () => {
             </div>
 
             <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8 md:gap-12 items-center h-full min-h-[80vh]">
-                {/* Content */}
                 <div className="space-y-8 animate-fade-in-up md:pr-8 z-30">
                     <div className="inline-flex items-center space-x-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 shadow-sm backdrop-blur-sm bg-white/50">
                         <span className="flex items-center justify-center w-5 h-5 rounded-full bg-brand-blue text-white text-[10px] font-bold">NV</span>
@@ -91,7 +86,6 @@ const Hero = () => {
                     </div>
                 </div>
 
-                {/* Visual Element / Right Side - Magic Lens Effect */}
                 <div className="hidden md:block relative h-[80vh] w-full z-10">
                     <div
                         ref={containerRef}
@@ -108,9 +102,8 @@ const Hero = () => {
                                 layout="fill"
                                 objectFit="cover"
                                 priority
-                                className="blur-md scale-105" // Added scale to prevent white edges from blur
+                                className="blur-md scale-105"
                             />
-                            {/* Gradient Overlay for integration */}
                             <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/20 to-transparent mix-blend-overlay"></div>
                         </div>
 
@@ -133,7 +126,7 @@ const Hero = () => {
                                 layout="fill"
                                 objectFit="cover"
                                 priority
-                                className="scale-105" // Match scale of blurred image
+                                className="scale-105"
                             />
                         </div>
 
@@ -150,7 +143,6 @@ const Hero = () => {
                             ></div>
                         )}
 
-                        {/* Floating Badge integrated */}
                         <div className="absolute bottom-12 -left-12 bg-white/80 backdrop-blur-xl p-6 rounded-2xl shadow-xl border border-white/50 max-w-xs animate-float pointer-events-none">
                             <p className="font-semibold text-brand-blue text-lg">"Diseño y comodidad en perfecto equilibrio."</p>
                             <p className="text-sm text-gray-600 mt-2 font-medium">— Valentina, 24 años</p>
@@ -159,7 +151,6 @@ const Hero = () => {
                 </div>
             </div>
 
-            {/* Mouse Scroll Indicator */}
             <div
                 className="absolute bottom-10 left-10 md:left-1/2 md:-translate-x-1/2 z-30 flex flex-col items-center animate-bounce duration-[2000ms]"
                 style={{ opacity: scrollOpacity }}
