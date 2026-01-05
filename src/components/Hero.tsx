@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Star, MousePointer2 } from 'lucide-react'; // Using MousePointer2 as placeholder or custom SVG
+import { ArrowRight, Star } from 'lucide-react';
 import { useParallax } from '@/hooks/useParallax';
 
 const Hero = () => {
     const bgParallax = useParallax(0.2);
-    const imageParallax = useParallax(0.15); // Slower, subtle movement for the main image
-
-    // Custom scroll indicator animation
+    // Custom scroll indicator animation state
     const [scrollOpacity, setScrollOpacity] = useState(1);
+
+    // Lens Effect State
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const [isHovering, setIsHovering] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         const handleScroll = () => {
             const opacity = Math.max(0, 1 - window.scrollY / 300);
@@ -19,6 +23,15 @@ const Hero = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (containerRef.current) {
+            const rect = containerRef.current.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            setMousePos({ x, y });
+        }
+    };
+
     return (
         <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-brand-light">
             {/* Background with Overlay */}
@@ -27,13 +40,11 @@ const Hero = () => {
                 style={{ transform: `translateY(${bgParallax}px)` }}
             >
                 <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent z-10" />
-                {/* We can keep the subtle background texture or remove it if checking specifically for the new image */}
             </div>
 
             <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8 md:gap-12 items-center h-full min-h-[80vh]">
                 {/* Content */}
                 <div className="space-y-8 animate-fade-in-up md:pr-8 z-30">
-
                     <div className="inline-flex items-center space-x-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 shadow-sm backdrop-blur-sm bg-white/50">
                         <span className="flex items-center justify-center w-5 h-5 rounded-full bg-brand-blue text-white text-[10px] font-bold">NV</span>
                         <span className="text-sm font-medium text-brand-blue">Nueva Colección 2026 Disponible</span>
@@ -80,29 +91,67 @@ const Hero = () => {
                     </div>
                 </div>
 
-                {/* Visual Element / Right Side - Integrated Image */}
-                {/* Changed from floating card to a more integrated look, perhaps masking into the background or full bleed on right */}
+                {/* Visual Element / Right Side - Magic Lens Effect */}
                 <div className="hidden md:block relative h-[80vh] w-full z-10">
                     <div
-                        className="absolute right-0 top-0 w-full h-full will-change-transform perspective-1000"
-                        style={{ transform: `translateY(${imageParallax}px)` }}
+                        ref={containerRef}
+                        className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl cursor-none"
+                        onMouseMove={handleMouseMove}
+                        onMouseEnter={() => setIsHovering(true)}
+                        onMouseLeave={() => setIsHovering(false)}
                     >
-                        {/* Image container with gradient mask for integration */}
-                        <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl">
+                        {/* 1. Blurred Base Layer */}
+                        <div className="absolute inset-0">
                             <Image
                                 src="/hero-model.png"
-                                alt="Modelo usando gafas S&V"
+                                alt="Modelo - Blurred"
                                 layout="fill"
                                 objectFit="cover"
                                 priority
-                                className="hover:scale-105 transition-transform duration-1000"
+                                className="blur-md scale-105" // Added scale to prevent white edges from blur
                             />
                             {/* Gradient Overlay for integration */}
                             <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/20 to-transparent mix-blend-overlay"></div>
                         </div>
 
-                        {/* Floating Badge integrated into image area */}
-                        <div className="absolute bottom-12 -left-12 bg-white/80 backdrop-blur-xl p-6 rounded-2xl shadow-xl border border-white/50 max-w-xs animate-float">
+                        {/* 2. Sharp Reveal Layer (Masked) */}
+                        <div
+                            className="absolute inset-0 will-change-[mask-position] pointer-events-none transition-opacity duration-300"
+                            style={{
+                                maskImage: isHovering
+                                    ? `radial-gradient(circle 120px at ${mousePos.x}px ${mousePos.y}px, black 100%, transparent 100%)`
+                                    : 'none',
+                                WebkitMaskImage: isHovering
+                                    ? `radial-gradient(circle 120px at ${mousePos.x}px ${mousePos.y}px, black 100%, transparent 100%)`
+                                    : 'none',
+                                opacity: isHovering ? 1 : 0
+                            }}
+                        >
+                            <Image
+                                src="/hero-model.png"
+                                alt="Modelo - Sharp"
+                                layout="fill"
+                                objectFit="cover"
+                                priority
+                                className="scale-105" // Match scale of blurred image
+                            />
+                        </div>
+
+                        {/* 3. Lens Border/Glass Effect (Visual Indicator) */}
+                        {isHovering && (
+                            <div
+                                className="absolute w-[240px] h-[240px] rounded-full border-2 border-white/30 pointer-events-none shadow-[0_0_40px_rgba(255,255,255,0.3)] backdrop-brightness-110"
+                                style={{
+                                    left: mousePos.x,
+                                    top: mousePos.y,
+                                    transform: 'translate(-50%, -50%)',
+                                    boxShadow: 'inset 0 0 20px rgba(255,255,255,0.2), 0 0 20px rgba(0,0,0,0.1)'
+                                }}
+                            ></div>
+                        )}
+
+                        {/* Floating Badge integrated */}
+                        <div className="absolute bottom-12 -left-12 bg-white/80 backdrop-blur-xl p-6 rounded-2xl shadow-xl border border-white/50 max-w-xs animate-float pointer-events-none">
                             <p className="font-semibold text-brand-blue text-lg">"Diseño y comodidad en perfecto equilibrio."</p>
                             <p className="text-sm text-gray-600 mt-2 font-medium">— Valentina, 24 años</p>
                         </div>
