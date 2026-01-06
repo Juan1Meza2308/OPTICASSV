@@ -57,7 +57,7 @@ const Navbar = () => {
                     ))}
                     <Link
                         href="#contact"
-                        className="bg-brand-blue/90 backdrop-blur-md text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-brand-blue/100 border border-white/20 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        className="btn-liquid px-5 py-2 rounded-full text-sm font-bold text-brand-blue hover:text-brand-teal transition-colors"
                     >
                         Agendar Cita
                     </Link>

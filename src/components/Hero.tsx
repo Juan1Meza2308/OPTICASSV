@@ -60,7 +60,7 @@ const Hero = () => {
                     <div className="flex flex-col sm:flex-row gap-4 pt-2">
                         <Link
                             href="#contact"
-                            className="inline-flex justify-center items-center px-8 py-4 bg-brand-blue/90 backdrop-blur-md border border-white/20 text-white font-semibold rounded-lg shadow-xl hover:bg-brand-blue hover:shadow-2xl transition-all transform hover:-translate-y-1 group"
+                            className="btn-liquid inline-flex justify-center items-center px-8 py-4 text-brand-blue font-bold rounded-lg group"
                         >
                             Encuentra tu estilo ideal
                             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -102,7 +102,7 @@ const Hero = () => {
                                 layout="fill"
                                 objectFit="cover"
                                 priority
-                                className="blur-md scale-105"
+                                className="blur-[2px] scale-105"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/20 to-transparent mix-blend-overlay"></div>
                         </div>
@@ -143,9 +143,10 @@ const Hero = () => {
                             ></div>
                         )}
 
-                        <div className="absolute bottom-12 -left-12 bg-white/80 backdrop-blur-xl p-6 rounded-2xl shadow-xl border border-white/50 max-w-xs animate-float pointer-events-none">
-                            <p className="font-semibold text-brand-blue text-lg">"Diseño y comodidad en perfecto equilibrio."</p>
-                            <p className="text-sm text-gray-600 mt-2 font-medium">— Valentina, 24 años</p>
+                        {/* Floating Badge - Relocated to safe area */}
+                        <div className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/40 max-w-xs pointer-events-none z-20">
+                            <p className="font-semibold text-brand-blue text-sm">"Diseño y comodidad en perfecto equilibrio."</p>
+                            <p className="text-xs text-gray-600 mt-1 font-medium">— Valentina, 24 años</p>
                         </div>
                     </div>
                 </div>

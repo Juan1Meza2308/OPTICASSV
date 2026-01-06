@@ -3,29 +3,50 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-
-  /* Brand Colors */
-  --brand-blue: #0f2d5c;
-  --brand-teal: #14b8a6;
-  --brand-gold: #c29d59;
-  --brand-light: #f8fafc;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-brand-blue: var(--brand-blue);
-  --color-brand-teal: var(--brand-teal);
-  --color-brand-gold: var(--brand-gold);
-  --color-brand-light: var(--brand-light);
-
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+@theme {
+  --color-brand-blue: #0f2d5c;
+  --color-brand-teal: #14b8a6;
+  --color-brand-gold: #c29d59;
+  --color-brand-light: #f8fafc;
+  --font-sans: 'Inter', system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .btn-liquid {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2);
+    transition: all 300ms;
+  }
+
+  .btn-liquid:hover {
+    box-shadow: 0 0 30px rgba(20, 184, 166, 0.4);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+  }
+
+  .btn-liquid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-20deg);
+    transition: all 700ms;
+  }
+
+  .btn-liquid:hover::before {
+    left: 200%;
+  }
 }
